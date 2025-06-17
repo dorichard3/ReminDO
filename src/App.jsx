@@ -292,27 +292,61 @@ function App() {
 
         <div style={{ marginTop: '2rem' }}>
           <h3>📁 Saved Agenda Folders</h3>
-          const [openFolders, setOpenFolders] = useState({}); // keep track of expanded state
           {Object.keys(folderedAgendas).map(folder => (
-            <div key={folder}>
-              <h4 onClick={() =>
-                setOpenFolders(prev => ({ ...prev, [folder]: !prev[folder] }))
-              }>
-                {folder}
-              </h4>
+            <div key={folder} style={{ marginBottom: '1rem' }}>
+              <button
+                onClick={() => toggleFolder(folder)}
+                style={{
+                  backgroundColor: '#f39c12',
+                  color: '#fff',
+                  border: 'none',
+                  padding: '0.5rem 1rem',
+                  borderRadius: '4px',
+                  cursor: 'pointer',
+                  marginBottom: '0.5rem'
+                }}
+              >
+                {openFolders[folder] ? '▼' : '▶'} {folder}
+              </button>
+
               {openFolders[folder] && (
-                <ul>
-                  {folderedAgendas[folder].map((agenda, idx) => (
-                    <li key={idx}>
-                      <strong>{agenda.title}</strong>
-                      <button onClick={() => deleteAgenda(folder, agenda.title)}>Delete</button>
+                <ul style={{ listStyle: 'none', paddingLeft: '1rem', borderLeft: '2px solid #f39c12' }}>
+                  {folderedAgendas[folder].map((agenda, index) => (
+                    <li key={index} style={{ marginBottom: '1rem' }}>
+                      <strong>{agenda.title}</strong> — <em>{agenda.timestamp}</em>
+                      <div style={{ display: 'flex', gap: '0.5rem', marginTop: '0.25rem' }}>
+                        <button
+                          onClick={() => setAgendaNotes(agenda.content)}
+                          style={{
+                            backgroundColor: '#ddd',
+                            padding: '0.25rem 0.75rem',
+                            border: 'none',
+                            borderRadius: '4px',
+                            cursor: 'pointer'
+                          }}
+                        >
+                          View
+                        </button>
+                        <button
+                          onClick={() => deleteAgenda(folder, agenda.title)}
+                          style={{
+                            backgroundColor: '#f88',
+                            color: '#900',
+                            border: 'none',
+                            padding: '0.25rem 0.75rem',
+                            borderRadius: '4px',
+                            cursor: 'pointer'
+                          }}
+                        >
+                          Delete
+                        </button>
+                      </div>
                     </li>
                   ))}
                 </ul>
               )}
             </div>
           ))}
-
 
 
         </div>
@@ -322,7 +356,7 @@ function App() {
       {showCalendar && (
         <div style={{ marginTop: '2rem' }}>
           <h2>📆 Calendar View</h2>
-          <Calendar onChange={setSelectedDate} value={selectedDate} tileContent={({ date }) => notes.some(n => n.date === date.toISOString().split('T')[0]) ? (<div className="dot"></div>) : null} />
+          <Calendar onChange={setSelectedDate} value={selectedDate} tileContent={({ date }) => notes.some(note => note.date === date.toISOString().split('T')[0]) ? (<div className="dot"></div>) : null} />
           <h3>Reminders for {selectedDate.toDateString()}</h3>
           <ul>
             {sortedNotes.filter(note => note.date === selectedDate.toISOString().split('T')[0]).map(note => (

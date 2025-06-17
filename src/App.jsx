@@ -39,8 +39,6 @@ function App() {
     return saved ? JSON.parse(saved) : {};
   });
 
-  const [openFolders, setOpenFolders] = useState({});
-
   const params = new URLSearchParams(window.location.search);
   const editIdFromUrl = params.get('editId');
 

@@ -260,15 +260,16 @@ function App() {
             <button onClick={() => deleteNote(note.id)} style={{ marginLeft: '0.5rem', backgroundColor: '#e74c3c', color: '#fff', border: 'none', padding: '0.25rem 0.75rem' }}>Delete</button>
             <button
               onClick={() => {
-                window.open(`/?editId=${note.id}`, '_blank');
+                setEditId(note.id);
+                setEditText(note.text);
+                setEditHour(note.time.split(':')[0]);
+                setEditMinute(note.time.split(':')[1].split(' ')[0]);
+                setEditAmpm(note.time.split(' ')[1]);
+                setEditDate(note.date);
+                setEditCategory(note.category);
+                setEditRepeat(note.repeat);
               }}
-              style={{
-                marginLeft: '0.5rem',
-                backgroundColor: '#f39c12',
-                color: '#fff',
-                border: 'none',
-                padding: '0.25rem 0.75rem'
-              }}
+              style={{ marginLeft: '0.5rem', backgroundColor: '#f39c12', color: '#fff', border: 'none', padding: '0.25rem 0.75rem' }}
             >
               Edit
             </button>

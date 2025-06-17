@@ -1,0 +1,65 @@
+/* Default tile styles */
+.react-calendar__tile {
+  color: black;
+  position: relative;
+}
+
+/* Hover effect */
+
+/* Make the calendar header (month and year) black */
+.react-calendar__navigation button {
+  color: black !important;
+}
+
+.react-calendar__tile:hover {
+  background-color: #e0e0e0 !important;
+}
+
+/* Selected day (clicked day) */
+.react-calendar__tile--active {
+  background-color: yellow !important;
+  color: black !important;
+}
+
+/* Today’s date */
+.react-calendar__tile--now {
+  background: #007bff !important; /* blue */
+  color: white !important;
+}
+
+/* Red dot for reminders */
+.dot {
+  position: absolute;
+  bottom: 6px;
+  left: 50%;
+  transform: translateX(-50%);
+  height: 6px;
+  width: 6px;
+  background-color: red;
+  border-radius: 50%;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+  opacity: 0;
+  cursor: pointer;
+}
+
+input[type="date"] {
+  position: relative;
+}
+
+input[type="date"]::after {
+  content: '📅';
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+/* Match the date input text to the gray placeholder style */
+input[type="date"] {
+  color: #888; /* light gray like placeholder text */
+}
+
+

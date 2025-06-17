@@ -41,6 +41,10 @@ function App() {
 
   const [openFolders, setOpenFolders] = useState({});
 
+  const params = new URLSearchParams(window.location.search);
+  const editIdFromUrl = params.get('editId');
+
+
   useEffect(() => {
     localStorage.setItem('agendaNotes', agendaNotes);
   }, [agendaNotes]);
@@ -62,6 +66,23 @@ function App() {
   useEffect(() => {
     localStorage.setItem('folderedAgendas', JSON.stringify(folderedAgendas));
   }, [folderedAgendas]);
+
+  useEffect(() => {
+    if (editIdFromUrl && !editId) {
+      const existingNote = notes.find(n => n.id.toString() === editIdFromUrl);
+      if (existingNote) {
+        setEditId(existingNote.id);
+        setEditText(existingNote.text);
+        setEditHour(existingNote.time.split(':')[0]);
+        setEditMinute(existingNote.time.split(':')[1].split(' ')[0]);
+        setEditAmpm(existingNote.time.split(' ')[1]);
+        setEditDate(existingNote.date);
+        setEditCategory(existingNote.category);
+        setEditRepeat(existingNote.repeat);
+      }
+    }
+  }, [editIdFromUrl, notes]);
+
 
   const addNote = (e) => {
     e.preventDefault();
@@ -239,20 +260,18 @@ function App() {
             <button onClick={() => deleteNote(note.id)} style={{ marginLeft: '0.5rem', backgroundColor: '#e74c3c', color: '#fff', border: 'none', padding: '0.25rem 0.75rem' }}>Delete</button>
             <button
               onClick={() => {
-                setEditId(note.id);
-                setEditText(note.text);
-                setEditHour(note.time.split(':')[0]);
-                setEditMinute(note.time.split(':')[1].split(' ')[0]);
-                setEditAmpm(note.time.split(' ')[1]);
-                setEditDate(note.date);
-                setEditCategory(note.category);
-                setEditRepeat(note.repeat);
+                window.open(`/?editId=${note.id}`, '_blank');
               }}
-              style={{ marginLeft: '0.5rem', backgroundColor: '#f39c12', color: '#fff', border: 'none', padding: '0.25rem 0.75rem' }}
+              style={{
+                marginLeft: '0.5rem',
+                backgroundColor: '#f39c12',
+                color: '#fff',
+                border: 'none',
+                padding: '0.25rem 0.75rem'
+              }}
             >
               Edit
             </button>
-
           </li>
         ))}
       </ul>
